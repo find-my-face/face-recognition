@@ -10,9 +10,20 @@ import numpy as np
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import storage
+from google.cloud import storage
 
-cred = credentials.Certificate("path/to/serviceAccountKey.json")
+
+cred = credentials.Certificate("./serviceAccountKey.json")
 firebase_admin.initialize_app(cred)
+
+app = firebase_admin.initialize_app(cred, {
+    'storageBucket': 'find-my-face.appspot.com',
+}, name='storage')
+
+bucket = storage.bucket(app=app)
+blob = bucket.blob("/Photographers/Photographer1/HilaryDuffPics/hilaryduff5.jpg")
+
+print(blob.generate_signed_url(datetime.timedelta(seconds=300), method='GET'))
 
 def scan_known_people(known_people_folder):
     known_names = []
