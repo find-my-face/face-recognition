@@ -7,7 +7,12 @@ import itertools
 import sys
 import PIL.Image
 import numpy as np
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import storage
 
+cred = credentials.Certificate("path/to/serviceAccountKey.json")
+firebase_admin.initialize_app(cred)
 
 def scan_known_people(known_people_folder):
     known_names = []
